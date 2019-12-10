@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {StatusBar, AsyncStorage} from 'react-native';
-import {StackActions, NavigationActions} from 'react-navigation';
+import { StatusBar } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 import api from '../../services/api';
 
-import {Container, Logo, Input, ErrorMessage, Button, ButtonText, SignUpLink, SignUpLinkText} from './styles';
+import { Container, Logo, Input, ErrorMessage, Button, ButtonText, SignUpLink, SignUpLinkText } from './styles';
 
 export default class SignIn extends Component {
   static navigationOptions = {
@@ -20,14 +21,14 @@ export default class SignIn extends Component {
     }).isRequired,
   };
 
-  state = {email: '', password: '', error: ''};
+  state = { email: '', password: '', error: '' };
 
   handleEmailChange = email => {
-    this.setState({email});
+    this.setState({ email });
   };
 
   handlePasswordChange = password => {
-    this.setState({password});
+    this.setState({ password });
   };
 
   handleCreateAccountPress = () => {
@@ -36,7 +37,7 @@ export default class SignIn extends Component {
 
   handleSignInPress = async () => {
     if (this.state.email.length === 0 || this.state.password.length === 0) {
-      this.setState({error: 'Preencha usuário e senha para continuar!'}, () => false);
+      this.setState({ error: 'Preencha usuário e senha para continuar!' }, () => false);
     } else {
       try {
         const response = await api.post('/sessions', {
@@ -48,11 +49,11 @@ export default class SignIn extends Component {
 
         const resetAction = StackActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({routeName: 'Main'})],
+          actions: [NavigationActions.navigate({ routeName: 'Main' })],
         });
         this.props.navigation.dispatch(resetAction);
       } catch (_err) {
-        this.setState({error: 'Houve um problema com o login, verifique suas credenciais!'});
+        this.setState({ error: 'Houve um problema com o login, verifique suas credenciais!' });
       }
     }
   };
